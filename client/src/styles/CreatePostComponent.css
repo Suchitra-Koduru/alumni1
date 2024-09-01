@@ -1,0 +1,32 @@
+.create-post-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Center the container vertically */
+    background-color: #f5f5f5; /* Optional: Light background color */
+    padding: 16px; /* Add padding around the container */
+  }
+  
+  .create-post-card {
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .create-post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .create-post-input {
+    width: 100%;
+  }
+  
+  .create-post-file-input {
+    margin-top: 16px;
+  }
+  
+  .create-post-button {
+    margin-top: 16px;
+  }
+  

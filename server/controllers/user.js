@@ -1,11 +1,9 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
+
 import UserModal from "../models/user.js";
 
-dotenv.config();
-
-const secret = process.env.JWT_SECRET || 'fallbackSecret';
+const secret = 'test';
 
 export const signin = async (req, res) => {
   const { email, password } = req.body;
@@ -22,6 +20,7 @@ export const signin = async (req, res) => {
 
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: "1h" });
 
+    //res.status(200).json(oldUser);
     res.status(200).json({
       token: token,
       login: true,
@@ -30,8 +29,7 @@ export const signin = async (req, res) => {
       message: "User logged in successfully",
     });
   } catch (err) {
-    console.error('Error during sign-in:', err);
-    res.status(500).json({ message: "Something went wrong during sign-in" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -45,18 +43,15 @@ export const signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const result = await UserModal.create({
-      email,
-      password: hashedPassword,
-      name: `${firstName} ${lastName}` // Corrected string interpolation
-    });
-
+ 
+  
     console.log(result);
-    const token = jwt.sign({ email: result.email, id: result._id }, secret, { expiresIn: "1h" });
+    const token = jwt.sign( { email: result.email, id: result._id }, secret, { expiresIn: "1h" } );
 
     res.status(201).json({ result, token });
   } catch (error) {
-    console.error('Error during sign-up:', error);
-    res.status(500).json({ message: "Something went wrong during sign-up" });
+    res.status(500).json({ message: "Something went wrong" });
+    
+    console.log(error);
   }
 };

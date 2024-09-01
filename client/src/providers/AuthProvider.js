@@ -23,7 +23,7 @@ const AuthProvider = ({children}) => {
     const navigate = useNavigate()
     const loginAction  = async (data) => {
         try{
-            const response = await axios.post('http://localhost:5000/api/login',data)
+            const response = await axios.post('http://localhost:5000/user/signin',data)
             if(response.data){
                 //console.log(response.data)
                 alert(response.data.message)
