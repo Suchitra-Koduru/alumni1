@@ -4,6 +4,7 @@ import {BrowserRouter,Routes,Route} from "react-router-dom";
 import LoginComponent from "./components/LoginComponent";
 import SignUpComponent from "./components/SignUpComponent";
 import HeaderComponent from './components/HeaderComponent';
+import PostComponent from './components/PostComponent';
 import AuthProvider from './providers/AuthProvider';
 
 function App() {

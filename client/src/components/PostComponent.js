@@ -1,11 +1,11 @@
-import DropDown from "./DropDown";
+//import DropDown from "./DropDown";
 import axios from "axios";
-import {useEffect ,UseState } from "react";
+import {useEffect ,useState } from "react";
 import {Button , Card ,Col , Container , Row }  from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 function PostComponent(){
     const navigate = useNavigate();
-    const[posts,setMovies]=useState([]);
+    const[posts,setPosts]=useState([]);
     useEffect(()=>{
         async function fetchPosts() {
             try{  
