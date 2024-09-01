@@ -20,7 +20,14 @@ export const signin = async (req, res) => {
 
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: "1h" });
 
-    res.status(200).json({ result: oldUser, token });
+    //res.status(200).json(oldUser);
+    res.status(200).json({
+      token: token,
+      login: true,
+      id: oldUser._id,
+      user: oldUser,
+      message: "User logged in successfully",
+    });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong" });
   }
