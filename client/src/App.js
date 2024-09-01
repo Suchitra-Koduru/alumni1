@@ -16,6 +16,7 @@ function App() {
           {/* <Route path="/" element={<HeaderComponent></HeaderComponent>}></Route> */}
           <Route path="/login" element={<LoginComponent/>}></Route>
           <Route path="/signup" element={<SignUpComponent/>}></Route>
+          <Route path="/getposts" element={<PostComponent />} />
         </Routes>
       </AuthProvider>
       </BrowserRouter>
