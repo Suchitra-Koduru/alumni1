@@ -2,52 +2,65 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Card, CardContent, Typography } from '@mui/material';
-import { useAuth } from '../providers/AuthProvider'; // Replace with your auth provider
-import '../styles/CreatePostComponent.css'; // Import the CSS file
+import { useAuth } from '../providers/AuthProvider';
+import '../styles/CreatePostComponent.css';
 
-const CreatePostComponent = () => {
-  const [title, setTitle] = useState('');
-  const [message, setMessage] = useState('');
-  const [tags, setTags] = useState('');
-  const [selectedFile, setSelectedFile] = useState('');
+function CreatePostComponent() {
   const { userId } = useAuth();
-  
   const navigate = useNavigate();
-   
-  const handleSubmit = async (e) => {
+  
+  const [newPost, setNewPost] = useState({
+    title: '',
+    message: '',
+    tags: '',
+    selectedFile: null,
+  });
+
+  const [posts, setPosts] = useState([]);
+
+  async function handleCreatePost(e) {
     e.preventDefault();
+
     if (!userId) {
       alert('Please log in to create a post.');
       return;
     }
 
     try {
-        const token = localStorage.getItem('token'); // Ensure 'token' is a string key
-        if (!token) {
-            throw new Error("No token found. Please log in.");
-        }
-      
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('message', message);
-        formData.append('tags', tags.split(',').map(tag => tag.trim()));
-        formData.append('selectedFile', selectedFile);
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("No token found. Please log in.");
+      }
 
-        await axios.post('http://localhost:5000/posts/', formData, {
-            headers: { Authorization: `Bearer ${token}` }
+      const formData = new FormData();
+      formData.append('title', newPost.title);
+      formData.append('message', newPost.message);
+      formData.append('tags', newPost.tags.split(',').map(tag => tag.trim()));
+      formData.append('selectedFile', newPost.selectedFile);
+
+      const res = await axios.post('http://localhost:5000/posts/', formData, {
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data', // Important for file uploads
+        },
+      });
+      console.log(res)
+      if (res.status === 200) {
+        setPosts([...posts, res.data]); // Update the posts state with the new post
+        setNewPost({
+          title: '',
+          message: '',
+          tags: '',
+          selectedFile: null,
         });
-
-        alert("Post created successfully");
         navigate('/getposts');
-    } catch (error) {
-        console.error('Error creating post:', error);
+      } else {
+        alert('Failed to create post');
+      }
+    } catch (err) {
+      console.error('Error creating post:', err);
     }
-};
-
-
-
-
-
+  }
 
   return (
     <div className="create-post-container">
@@ -56,38 +69,41 @@ const CreatePostComponent = () => {
           <Typography variant="h5" component="div">
             Create Post
           </Typography>
-          <form onSubmit={handleSubmit} className="create-post-form">
+          <form className="create-post-form" style={{ maxWidth: '800px', margin: 'auto' }}>
             <TextField
               label="Title"
               variant="outlined"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={newPost.title}
+              onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, title: e.target.value }))}
               required
-              className="create-post-input"
+              fullWidth
+              margin="normal"
             />
             <TextField
               label="Message"
               variant="outlined"
               multiline
               rows={4}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              value={newPost.message}
+              onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, message: e.target.value }))}
               required
-              className="create-post-input"
+              fullWidth
+              margin="normal"
             />
             <TextField
               label="Tags (comma-separated)"
               variant="outlined"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-              className="create-post-input"
+              value={newPost.tags}
+              onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, tags: e.target.value }))}
+              fullWidth
+              margin="normal"
             />
             <input
               type="file"
-              onChange={(e) => setSelectedFile(e.target.files[0])}
-              className="create-post-file-input"
+              onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, selectedFile: e.target.files[0] }))}
+              style={{ marginTop: '16px', marginBottom: '16px' }}
             />
-            <Button variant="contained" color="primary" type="submit" className="create-post-button">
+            <Button variant="contained" color="primary" type="submit" onClick={handleCreatePost}>
               Create Post
             </Button>
           </form>
@@ -95,6 +111,6 @@ const CreatePostComponent = () => {
       </Card>
     </div>
   );
-};
+}
 
 export default CreatePostComponent;
