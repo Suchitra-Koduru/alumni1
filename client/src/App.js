@@ -4,7 +4,7 @@ import {BrowserRouter,Routes,Route} from "react-router-dom";
 import LoginComponent from "./components/LoginComponent";
 import SignUpComponent from "./components/SignUpComponent";
 import HeaderComponent from './components/HeaderComponent';
-import PostComponent from './components/PostComponent';
+import PostsList from './components/PostsList';
 
 import CreatePostComponent from './components/CreatePostComponent';
 import UpdatePostComponent from './components/UpdatePostComponent';
@@ -23,7 +23,7 @@ function App() {
           {/* <Route path="/" element={<HeaderComponent></HeaderComponent>}></Route> */}
           <Route path="/login" element={<LoginComponent/>}></Route>
           <Route path="/signup" element={<SignUpComponent/>}></Route>
-          <Route path="/getposts" element={<PostComponent />}></Route> 
+          <Route path="/getposts" element={<PostsList />}></Route> 
           <Route path="/posts/:id" element={<SinglePostComponent />}></Route>
           <Route path="/create" element={<CreatePostComponent />} />
           <Route path="/update/:id" element={<UpdatePostComponent />} />

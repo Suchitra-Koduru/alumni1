@@ -6,7 +6,7 @@ import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
 
 function RegisterComponent() {
   const [user, setUser] = useState({
-    email: "", password: "", username: "", phone: ""
+    email: "", password: "", firstname: "", lastname: ""
   })
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -105,10 +105,10 @@ function RegisterComponent() {
                             </div>
                         </div>
                 <div className="form-group form-label">
-                  <label>Username</label>
+                  <label>Firstname</label>
                   <input
                     type="text"
-                    value={user.username}
+                    value={user.firstname}
                     className="form-control"
                     // placeholder="Enter username"
                     required
@@ -116,28 +116,29 @@ function RegisterComponent() {
                       setUser((user) => {
                         return {
                           ...user,
-                          username: e.target.value
+                          firstname: e.target.value
                         }
                       })
                     }} />
                 </div>
                 <div className="form-group form-label">
-                  <label>Phone number</label>
+                  <label>Lastname</label>
                   <input
-                    type="tel"
-                    value={user.phone}
+                    type="text"
+                    value={user.lastname}
                     className="form-control"
-                    // placeholder="Enter phone number"
+                    // placeholder="Enter username"
                     required
                     onChange={(e) => {
                       setUser((user) => {
                         return {
                           ...user,
-                          phone: e.target.value
+                          lastname: e.target.value
                         }
                       })
                     }} />
                 </div>
+                
                 {error && <div className="alert alert-danger">{error}</div>}
                 <div className="d-grid">
                   <button

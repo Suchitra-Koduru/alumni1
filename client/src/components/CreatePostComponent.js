@@ -53,6 +53,7 @@ function CreatePostComponent() {
           tags: '',
           selectedFile: null,
         });
+        alert('post created successfully');
         navigate('/getposts');
       } else {
         alert('Failed to create post');
