@@ -38,7 +38,7 @@ function PostsList() {
     };
 
     return (
-        <Container className="container-custom">
+        <Container className="container-custom" style={{ paddingTop: '80px' }}>
             {loading ? (
                 <div className="text-center my-5">
                     <Spinner animation="border" variant="primary" />

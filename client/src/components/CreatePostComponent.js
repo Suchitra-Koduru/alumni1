@@ -1,189 +1,69 @@
-// import React, { useState } from 'react';
-// import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
-// import { TextField, Button, Card, CardContent, Typography } from '@mui/material';
-// import { useAuth } from '../providers/AuthProvider';
-// import '../styles/CreatePostComponent.css';
-
-// function CreatePostComponent() {
-//   const { userId } = useAuth();
-//   const navigate = useNavigate();
-  
-//   const [newPost, setNewPost] = useState({
-//     title: '',
-//     message: '',
-//     tags: '',
-//     selectedFile: null,
-//   });
-
-//   const [posts, setPosts] = useState([]);
-
-//   async function handleCreatePost(e) {
-//     e.preventDefault();
-
-//     if (!userId) {
-//       alert('Please log in to create a post.');
-//       return;
-//     }
-
-//     try {
-//       const token = localStorage.getItem("token");
-//       if (!token) {
-//         throw new Error("No token found. Please log in.");
-//       }
-
-//       const formData = new FormData();
-//       formData.append('title', newPost.title);
-//       formData.append('message', newPost.message);
-//       formData.append('tags', newPost.tags.split(',').map(tag => tag.trim()));
-//       formData.append('selectedFile', newPost.selectedFile);
-
-//       const res = await axios.post('http://localhost:5000/posts/', formData, {
-//         headers: { 
-//           Authorization: `Bearer ${token}`,
-//           'Content-Type': 'multipart/form-data', // Important for file uploads
-//         },
-//       });
-//       console.log(res)
-//       if (res.status === 201) {
-//         setPosts([...posts, res.data]); // Update the posts state with the new post
-//         setNewPost({
-//           title: '',
-//           message: '',
-//           tags: '',
-//           selectedFile: null,
-//         });
-//         navigate('/getposts');
-//       } else {
-//         alert('Failed to create post');
-//       }
-//     } catch (err) {
-//       console.error('Error creating post:', err);
-//     }
-//   }
-
-//   return (
-//     <div className="create-post-container">
-//       <Card className="create-post-card">
-//         <CardContent>
-//           <Typography variant="h5" component="div">
-//             Create Post
-//           </Typography>
-//           <form className="create-post-form" style={{ maxWidth: '800px', margin: 'auto' }}>
-//             <TextField
-//               label="Title"
-//               variant="outlined"
-//               value={newPost.title}
-//               onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, title: e.target.value }))}
-//               required
-//               fullWidth
-//               margin="normal"
-//             />
-//             <TextField
-//               label="Message"
-//               variant="outlined"
-//               multiline
-//               rows={4}
-//               value={newPost.message}
-//               onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, message: e.target.value }))}
-//               required
-//               fullWidth
-//               margin="normal"
-//             />
-//             <TextField
-//               label="Tags (comma-separated)"
-//               variant="outlined"
-//               value={newPost.tags}
-//               onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, tags: e.target.value }))}
-//               fullWidth
-//               margin="normal"
-//             />
-//             <input
-//               type="file"
-//               onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, selectedFile: e.target.files[0] }))}
-//               style={{ marginTop: '16px', marginBottom: '16px' }}
-//             />
-//             <Button variant="contained" color="primary" type="submit" onClick={handleCreatePost}>
-//               Create Post
-//             </Button>
-//           </form>
-//         </CardContent>
-//       </Card>
-//     </div>
-//   );
-// }
-
-// export default CreatePostComponent;
-
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Card, CardContent, Typography } from '@mui/material';
-import { useAuth } from '../providers/AuthProvider';
-import '../styles/CreatePostComponent.css';
+import { useAuth } from '../providers/AuthProvider'; // Assuming you have an auth context
+import '../styles/CreatePostComponent.css'; // Assuming you have a CSS file for styling
 
 function CreatePostComponent() {
-  const { userId } = useAuth();
   const navigate = useNavigate();
-  
+  const { userId } = useAuth(); // Assuming you get the user ID from the auth provider
   const [newPost, setNewPost] = useState({
-    title: '',
-    message: '',
-    tags: '',
+    title: "",
+    message: "",
+    tags: "",
     selectedFile: null,
   });
-
-  const [errorMessage, setErrorMessage] = useState(''); // State for error messages
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   async function handleCreatePost(e) {
     e.preventDefault();
 
     if (!userId) {
-      alert('Please log in to create a post.');
+      alert("Please log in to create a post");
+      navigate("/login");
       return;
     }
 
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('No token found. Please log in.');
-      }
-
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      
       const formData = new FormData();
       formData.append('title', newPost.title);
       formData.append('message', newPost.message);
-      formData.append('tags', newPost.tags.split(',').map(tag => tag.trim()).join(',')); // Convert tags to comma-separated string
+      formData.append('tags', newPost.tags.split(',').map(tag => tag.trim()));
       if (newPost.selectedFile) {
-        formData.append('selectedFile', newPost.selectedFile); // Append file only if selected
+        formData.append('selectedFile', newPost.selectedFile); // Only append if file exists
       }
 
-      const res = await axios.post('http://localhost:5000/posts/', formData, {
-        headers: { 
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data', // Set content type for file uploads
-        },
+      const res = await axios.post(`http://localhost:5000/posts/`, formData, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "multipart/form-data"
+        }
       });
 
-      if (res.status === 201) {
-        setNewPost({
-          title: '',
-          message: '',
-          tags: '',
-          selectedFile: null,
-        });
-        alert('post created successfully');
-        navigate('/getposts');
+      if (res.data.status === false) {
+        if (res.data.login === false) {
+          alert("Please log in to proceed");
+          navigate("/login");
+        }
       } else {
-        setErrorMessage('Failed to create post.'); // Set error message for non-201 responses
+        setPosts([...posts, res.data]);
+        setNewPost({
+          title: "",
+          message: "",
+          tags: "",
+          selectedFile: null
+        });
+        navigate("/getPosts");
       }
     } catch (err) {
-      if (err.response) {
-        setErrorMessage(err.response.data.message || 'Error creating post.'); // Set error message based on server response
-      } else {
-        setErrorMessage('An error occurred while creating the post.');
-      }
-      console.error('Error creating post:', err);
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -194,8 +74,7 @@ function CreatePostComponent() {
           <Typography variant="h5" component="div">
             Create Post
           </Typography>
-          {errorMessage && <Typography color="error">{errorMessage}</Typography>} {/* Display error message */}
-          <form className="create-post-form" onSubmit={handleCreatePost} style={{ maxWidth: '800px', margin: 'auto' }}>
+          <form className="create-post-form" style={{ maxWidth: '800px', margin: 'auto' }} onSubmit={handleCreatePost}>
             <TextField
               label="Title"
               variant="outlined"
@@ -229,8 +108,8 @@ function CreatePostComponent() {
               onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, selectedFile: e.target.files[0] }))}
               style={{ marginTop: '16px', marginBottom: '16px' }}
             />
-            <Button variant="contained" color="primary" type="submit">
-              Create Post
+            <Button variant="contained" color="primary" type="submit" disabled={loading}>
+              {loading ? 'Creating Post...' : 'Create Post'}
             </Button>
           </form>
         </CardContent>

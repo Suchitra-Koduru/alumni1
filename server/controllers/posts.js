@@ -40,6 +40,7 @@ export const getPost = async (req, res) => {
 
     try {
         const post = await PostMessage.findById(id);
+        console.log(post)
         
         res.status(200).json(post);
     } catch (error) {
@@ -50,7 +51,7 @@ export const getPost = async (req, res) => {
 
 export const createPost = async (req, res) => {
     const post = req.body;
-
+    console.log(post)
     const newPostMessage = new PostMessage({ 
         ...post, 
         creator: req.userId, 
@@ -66,7 +67,87 @@ export const createPost = async (req, res) => {
     }
 }
 
+// import multer from 'multer';
 
+// // Configure multer to store files
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'uploads/');
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, `${Date.now()}-${file.originalname}`);
+//   }
+// });
+
+// export const upload = multer({ storage });
+
+// export const createPost = async (req, res) => {
+//   const { title, message, tags } = req.body;
+//   const selectedFile = req.file?.path; // If a file is uploaded
+//   console.log(req.body)
+//   const newPost = new PostMessage({
+//     title,
+//     message,
+//     tags,
+//     selectedFile,
+//     creator: req.id,
+//     createdAt: new Date().toISOString()
+//   });
+
+//   try {
+//     await newPost.save();
+//     res.status(201).json(newPost);
+//   } catch (error) {
+//     res.status(409).json({ message: error.message });
+//   }
+// };
+
+// export const createPost = async (req, res) => {
+//     console.log(req.body); // Check if title, message, tags are coming in correctly
+//     console.log(req.file); // Check if the file is being uploaded and parsed
+  
+//     const { title, message, tags } = req.body;
+//     const selectedFile = req.file?.path; // If a file is uploaded
+  
+//     const newPost = new PostMessage({
+//       title,
+//       message,
+//       tags: tags.split(',').map(tag => tag.trim()), // Split tags and trim spaces
+//       selectedFile,
+//       creator: req.userId,
+//       createdAt: new Date().toISOString(),
+//     });
+  
+//     try {
+//       await newPost.save();
+//       res.status(201).json(newPost); // Return the created post object in the response
+//     } catch (error) {
+//       res.status(409).json({ message: error.message });
+//     }
+//   };
+
+// export const createPost=async(req,res)=>{
+//     try{
+//         const{title,message,tags}=req.body
+//         const selectedFile = req.file?.path;
+//         const parsedTags = tags ? tags.split(',').map(tag => tag.trim()) : [];
+//         console.log(req.body)
+//         const newPost =new PostMessage({
+//                   title,
+//                   message,
+//                   tags: parsedTags, // Split tags and trim spaces
+//                   selectedFile,
+//                   creator: req.userId,
+//                   createdAt: new Date().toISOString(),
+//                 });
+//         await newPost.save()
+//         res.status(200).json(newPost)
+//     }
+//     catch(err){
+//         console.log(err)
+//         res.status(500).json({message:"Error in creating posts"})
+//     }
+// }
 export const updatePost = async (req, res) => {
     const { id } = req.params;
     const { title, message, creator, selectedFile, tags } = req.body;
