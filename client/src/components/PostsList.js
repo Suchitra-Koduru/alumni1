@@ -30,7 +30,7 @@ function PostsList() {
     }, [currentPage]);
 
     function handleSinglePost(id) {
-        navigate(`/getPost/${id}`);
+        navigate(`/posts/${id}`);
     }
 
     const handlePageChange = (pageNumber) => {

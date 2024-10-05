@@ -16,10 +16,12 @@ const DeletePostComponent = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:5000/posts/${id}`, {
+      const res=await axios.delete(`http://localhost:5000/posts/${id}`, {
         headers: { Authorization: `Bearer ${userId}` }
       });
-      navigate('/posts');
+      console.log(res.data)
+      prompt('Are you sure you want to delete this post?')
+      navigate('/getposts');
     } catch (error) {
       console.error('Error deleting post:', error);
     }

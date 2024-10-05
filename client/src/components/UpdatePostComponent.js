@@ -47,7 +47,7 @@ const UpdatePostComponent = () => {
       }, {
         headers: { Authorization: `Bearer ${userId}` }
       });
-      navigate('/posts');
+      navigate('/getposts');
     } catch (error) {
       console.error('Error updating post:', error);
     }

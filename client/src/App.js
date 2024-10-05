@@ -8,7 +8,7 @@ import PostsList from './components/PostsList';
 
 import CreatePostComponent from './components/CreatePostComponent';
 import UpdatePostComponent from './components/UpdatePostComponent';
-import DeletePostComponent from './components/DeletePostComponent';
+import SearchComponent from './components/SearchComponent';
 
 import AuthProvider from './providers/AuthProvider';
 import SinglePostComponent from './components/SinglePostComponent';
@@ -27,7 +27,7 @@ function App() {
           <Route path="/posts/:id" element={<SinglePostComponent />}></Route>
           <Route path="/create" element={<CreatePostComponent />} />
           <Route path="/update/:id" element={<UpdatePostComponent />} />
-          <Route path="/delete/:id" element={<DeletePostComponent />} />
+          <Route path="/search" element={<SearchComponent/>}></Route>
         </Routes>
       </AuthProvider>
       </BrowserRouter>

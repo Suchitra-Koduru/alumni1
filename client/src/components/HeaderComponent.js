@@ -43,7 +43,7 @@ function HeaderComponent() {
 
     function handleSearch(e) {
         e.preventDefault();
-        navigate('/search/');
+        navigate('/search');
     }
 
     return (

@@ -13,8 +13,8 @@ router.get('/', getPosts);
 router.get('/:id', getPost);
 
 router.post('/', upload.single('selectedFile'),createPost);
-router.patch('/:id', auth, updatePost);
-router.delete('/:id', auth, deletePost);
+router.patch('/:id', upload.single('selectedFile'), updatePost);
+router.delete('/:id', deletePost);
 router.patch('/:id/likePost', auth, likePost);
 router.post('/:id/commentPost', commentPost);
 export default router;
