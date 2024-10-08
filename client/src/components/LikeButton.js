@@ -1,39 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { IconButton } from '@mui/material';
-import { AiFillLike } from 'react-icons/ai';
-import { useAuth } from '../providers/AuthProvider'; // Replace with your auth provider
+// // // LikeButton.js
+// // LikeButton.js
+// import React, { useState } from 'react';
+// import { Button } from '@mui/material'; // Updated import
+// import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt'; // Updated import
+// import ThumbUpAltOutlined from '@mui/icons-material/ThumbUpAltOutlined'; // Updated import
+// import { useDispatch } from 'react-redux';
+// import { likePost } from '../../../actions/posts';
 
-const LikeButton = ({ postId, likes }) => {
-  const [liked, setLiked] = useState(false);
-  const { userId } = useAuth();
+// const LikeButton = ({ post, userId }) => {
+//   const dispatch = useDispatch();
+//   const [likes, setLikes] = useState(post?.likes);
+//   const hasLikedPost = likes?.find((like) => like === userId);
 
-  useEffect(() => {
-    setLiked(likes.includes(userId));
-  }, [likes, userId]);
+//   const handleLike = () => {
+//     dispatch(likePost(post._id));
 
-  const handleLike = async () => {
-    if (!userId) {
-      alert('Please log in to like a post.');
-      return;
-    }
+//     if (hasLikedPost) {
+//       setLikes(post.likes.filter((id) => id !== userId));
+//     } else {
+//       setLikes([...post.likes, userId]);
+//     }
+//   };
 
-    try {
-      await axios.patch(`http://localhost:3001/api/posts/${postId}/likePost`, {}, {
-        headers: { Authorization: `Bearer ${userId}` }
-      });
-      setLiked(!liked);
-    } catch (error) {
-      console.error('Error liking post:', error);
-    }
-  };
+//   const Likes = () => {
+//     if (likes.length > 0) {
+//       return hasLikedPost
+//         ? (
+//           <><ThumbUpAltIcon fontSize="small" />&nbsp;{likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} like${likes.length > 1 ? 's' : ''}` }</>
+//         ) : (
+//           <><ThumbUpAltOutlined fontSize="small" />&nbsp;{likes.length} {likes.length === 1 ? 'Like' : 'Likes'}</>
+//         );
+//     }
 
-  return (
-    <IconButton onClick={handleLike} color={liked ? 'primary' : 'default'}>
-      <AiFillLike />
-      {likes.length}
-    </IconButton>
-  );
-};
+//     return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>;
+//   };
 
-export default LikeButton;
+//   return (
+//     <Button size="small" color="primary" disabled={!userId} onClick={handleLike}>
+//       <Likes />
+//     </Button>
+//   );
+// };
+
+// export default LikeButton;

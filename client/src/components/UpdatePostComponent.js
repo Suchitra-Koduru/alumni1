@@ -18,7 +18,7 @@ const UpdatePostComponent = () => {
     const fetchPost = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/posts/${id}`);
-        setPost(response.data);
+         setPost(response.data);
         setTitle(response.data.title);
         setMessage(response.data.message);
         setTags(response.data.tags.join(', '));
@@ -32,8 +32,9 @@ const UpdatePostComponent = () => {
   }, [id]);
 
   const handleSubmit = async (e) => {
+    const token=localStorage.getItem("token")
     e.preventDefault();
-    if (!userId) {
+    if (!token) {
       alert('Please log in to update a post.');
       return;
     }
@@ -96,3 +97,5 @@ const UpdatePostComponent = () => {
 };
 
 export default UpdatePostComponent;
+
+

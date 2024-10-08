@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, Card, CardContent, CardMedia, Button, Divider, CircularProgress } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
-import LikeButton from './LikeButton';
 import CommentSection from './CommentSection';
 import { useAuth } from '../providers/AuthProvider';
+import LikeButton from './LikeButton';
 
 const SinglePostComponent = () => {
   const { id } = useParams();
@@ -12,7 +12,7 @@ const SinglePostComponent = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const{ userId}=useAuth()
+  const { userId } = useAuth();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -28,37 +28,32 @@ const SinglePostComponent = () => {
     };
 
     fetchPost();
-  }, [id]);
+  }, [id, userId]);
 
   const handleUpdate = (id) => {
     navigate(`/update/${id}`);
   };
-  const handleDelete = async (id) => {
+
+  const handleDelete = async () => {
     if (!userId) {
       alert('Please log in to delete a post.');
       return;
     }
-  
-    // const isConfirmed = confirm('Are you sure you want to delete this post?');
-    // if (!isConfirmed) {
-    //   return; // Exit the function if the user cancels the action
-    // }
-  
+
     try {
-      const res = await axios.delete(`http://localhost:5000/posts/${id}`, {
+      await axios.delete(`http://localhost:5000/posts/${id}`, {
         headers: { Authorization: `Bearer ${userId}` }
       });
-      console.log(res.data);
-      alert('Post deleted Successfully')
+      alert('Post deleted successfully');
       navigate('/getposts');
     } catch (error) {
       console.error('Error deleting post:', error);
     }
   };
-  
 
   if (loading) return <CircularProgress />;
   if (error) return <Typography variant="h6" color="error">{error}</Typography>;
+
   return (
     <Container>
       <Button onClick={() => navigate(-1)} variant="outlined" color="primary">Back</Button>
@@ -78,7 +73,7 @@ const SinglePostComponent = () => {
           <Typography variant="caption" color="textSecondary">Created by: {post.creator}</Typography>
           <Divider sx={{ my: 2 }} />
           <LikeButton postId={post._id} likes={post.likes} />
-          <Button onClick={()=>handleDelete(post._id)}>Delete</Button>
+          <Button onClick={handleDelete} color="secondary">Delete</Button>
           <Button onClick={() => handleUpdate(post._id)} variant="outlined" color="primary">Update Post</Button>
           <CommentSection postId={post._id} comments={post.comments} />
         </CardContent>
