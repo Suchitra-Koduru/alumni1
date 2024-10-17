@@ -31,7 +31,7 @@ const SinglePostComponent = () => {
     fetchPost();
   }, [id, userId]);
 
-  const handleUpdate = (id) => {
+  const handleUpdate = () => {
     navigate(`/update/${id}`);
   };
 
@@ -72,15 +72,15 @@ const SinglePostComponent = () => {
   if (error) return <Typography variant="h6" color="error">{error}</Typography>;
 
   return (
-    <Container style={{padding:'80px'}}>
+    <Container style={{ padding: '80px' }}>
       <Button onClick={() => navigate(-1)} variant="outlined" color="primary">Back</Button>
       <Card sx={{ marginTop: 2 }}>
         {post.selectedFile && (
           <CardMedia
             component="img"
-            height="140"
-            image={post.selectedFile}
-            alt="Post image"
+            height="300"
+            image={`http://localhost:5000/${post.selectedFile}`}
+            alt={post.title}
           />
         )}
         <CardContent>
@@ -93,7 +93,7 @@ const SinglePostComponent = () => {
             {liked ? "UNLIKE" : "LIKE"}
           </Button>
           <Button onClick={handleDelete} color="secondary">Delete</Button>
-          <Button onClick={() => handleUpdate(post._id)} variant="outlined" color="primary">Update Post</Button>
+          <Button onClick={handleUpdate} variant="outlined" color="primary">Update Post</Button>
           <CommentSection postId={post._id} comments={post.comments} />
         </CardContent>
       </Card>

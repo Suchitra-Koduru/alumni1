@@ -54,7 +54,12 @@ function PostsList() {
                             posts.map((post) => (
                                 <Col key={post._id} xs={12} sm={6} md={4} className="mb-4">
                                     <Card className="card-custom">
-                                        <Card.Img variant="top" src={post.selectedFile} />
+                                    <Card.Img 
+    variant="top" 
+    src={`http://localhost:5000/${post.selectedFile}`} 
+    alt={post.title} 
+/>
+
                                         <Card.Body className="card-body-custom">
                                             <Card.Title className="card-title-custom fs-6">{post.title}</Card.Title>
                                             <Button className="custom-button" onClick={() => handleSinglePost(post._id)} variant="primary" size="sm">

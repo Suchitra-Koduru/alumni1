@@ -104,10 +104,10 @@ function CreatePostComponent() {
               margin="normal"
             />
             <input
-              type="file"
-              onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, selectedFile: e.target.files[0] }))}
-              style={{ marginTop: '16px', marginBottom: '16px' }}
-            />
+  type="file"
+  onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, selectedFile: e.target.files[0] }))}
+/>
+
             <Button variant="contained" color="primary" type="submit" disabled={loading}>
               {loading ? 'Creating Post...' : 'Create Post'}
             </Button>

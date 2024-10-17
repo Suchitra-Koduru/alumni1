@@ -49,9 +49,31 @@ export const getPost = async (req, res) => {
 }
 
 
+// export const createPost = async (req, res) => {
+//     const post = req.body;
+//     console.log(post)
+//     const newPostMessage = new PostMessage({ 
+//         ...post, 
+//         creator: req.userId, 
+//         createdAt: new Date().toISOString() 
+//     });
+
+//     try {
+//         await newPostMessage.save();
+//         res.status(201).json(newPostMessage);
+//     } catch (error) {
+//         console.log(error);
+//         res.status(409).json({ message: error.message });
+//     }
+// }
 export const createPost = async (req, res) => {
     const post = req.body;
-    console.log(post)
+
+    // Add the path of the uploaded file to the post data
+    if (req.file) {
+        post.selectedFile = `uploads/${req.file.filename}`; // Store the relative path to the uploaded image
+    }
+
     const newPostMessage = new PostMessage({ 
         ...post, 
         creator: req.userId, 
@@ -65,7 +87,8 @@ export const createPost = async (req, res) => {
         console.log(error);
         res.status(409).json({ message: error.message });
     }
-}
+};
+
 
 // import multer from 'multer';
 
