@@ -12,8 +12,10 @@ import SearchComponent from './components/SearchComponent';
 
 import AuthProvider from './providers/AuthProvider';
 import SinglePostComponent from './components/SinglePostComponent';
-import LikeButton from './components/LikeButton';
 import HomePage from './components/HomePage';
+import ProfileComponent from './components/ProfileComponent'
+import MyPostsComponent from './components/MyPostsComponent'
+import LikedPosts from './components/LikedPosts';
 
 function App() {
   return (
@@ -30,7 +32,9 @@ function App() {
           <Route path="/create" element={<CreatePostComponent />} />
           <Route path="/update/:id" element={<UpdatePostComponent />} />
           <Route path="/search" element={<SearchComponent/>}></Route>
-          <Route path='/like/:id' element={<LikeButton/>}></Route>
+          <Route path='/profile' element={<ProfileComponent></ProfileComponent>}></Route>
+          <Route path='/myposts/:userId' element={<MyPostsComponent></MyPostsComponent>}></Route>
+          <Route path='/mylikedposts/:userId' element={<LikedPosts></LikedPosts>}></Route>
         </Routes>
       </AuthProvider>
       </BrowserRouter>

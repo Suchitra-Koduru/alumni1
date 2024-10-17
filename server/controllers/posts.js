@@ -2,6 +2,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import PostMessage from '../models/postMessage.js';
+//import {User} from '../models/user'; // Adjust path based on actual file structure
+ // Ensure the path is correct
+
 
 const router = express.Router();
 
@@ -76,7 +79,7 @@ export const createPost = async (req, res) => {
 
     const newPostMessage = new PostMessage({ 
         ...post, 
-        creator: req.userId, 
+        //creator: req.userId, 
         createdAt: new Date().toISOString() 
     });
 
@@ -199,27 +202,81 @@ export const deletePost = async (req, res) => {
 }
 
 
-export const likePost = async (req, res) => {
-    const { id } = req.params;
+// export const likePost = async (req, res) => {
+//     const { id } = req.params;
 
-    if (!req.userId) {
-        return res.json({ message: "Unauthenticated" });
-      }
+//     if (!req.userId) {
+//         return res.json({ message: "Unauthenticated" });
+//       }
 
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+//     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
     
-    const post = await PostMessage.findById(id);
+//     const post = await PostMessage.findById(id);
 
-    const index = post.likes.findIndex((id) => id ===String(req.userId));
+//     const index = post.likes.findIndex((id) => id ===String(req.userId));
 
-    if (index === -1) {
-      post.likes.push(req.userId);
-    } else {
-      post.likes = post.likes.filter((id) => id !== String(req.userId));
+//     if (index === -1) {
+//       post.likes.push(req.userId);
+//     } else {
+//       post.likes = post.likes.filter((id) => id !== String(req.userId));
+//     }
+//     const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+//     res.status(200).json(updatedPost);
+// }
+export const likePost = async (req, res) => {
+    const { id } = req.params; // The post ID
+    const { userId } = req.body; // The user ID (you may adjust this to your needs)
+
+    try {
+        const post = await PostMessage.findById(id);
+
+        // Check if the user already liked the post
+        if (post.likes.includes(userId)) {
+            // User already liked, remove the like
+            post.likes = post.likes.filter(user => user !== userId);
+        } else {
+            // User hasn't liked, add the like
+            post.likes.push(userId);
+        }
+
+        const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+
+        res.status(200).json(updatedPost);
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong" });
     }
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
-    res.status(200).json(updatedPost);
-}
+};
+
+// Get the number of likes
+export const getLikeCount = async (req, res) => {
+    const { id } = req.params; // The post ID
+
+    try {
+        const post = await PostMessage.findById(id);
+
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        const likeCount = post.likes.length; // Count of likes
+        res.status(200).json({ likeCount });
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong" });
+    }
+};
+
+export const getUserLikedPosts = async (req, res) => {
+    const { userId } = req.params; // Get userId from URL parameters
+
+    try {
+        // Find posts where the likes array includes the userId
+        const likedPosts = await PostMessage.find({ likes: userId });
+        
+        res.status(200).json(likedPosts);
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong" });
+    }
+};
 
 export const commentPost = async (req, res) => {
     const { id } = req.params;
@@ -233,5 +290,22 @@ export const commentPost = async (req, res) => {
 
     res.json(updatedPost);
 };
+
+// Get all posts created by a specific user
+export const UserPost = async (req, res) => {
+    const { userId } = req.params;
+    console.log(`Fetching posts for userId: ${userId}`);
+  
+    try {
+      const posts = await PostMessage.find({ creator: userId });
+      console.log(`Posts found: ${posts.length}`); // Log the number of posts found
+      res.status(200).json(posts);
+    } catch (error) {
+      console.error("Error fetching posts:", error.message);
+      res.status(404).json({ message: error.message });
+    }
+  };
+  
+
 
 export default router;
