@@ -36,6 +36,9 @@ function PostsList() {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+    function handleAddPost(){
+        navigate("/create")
+    }
 
     return (
         <Container className="container-custom" style={{ paddingTop: '80px' }}>
@@ -78,6 +81,7 @@ function PostsList() {
                     </Pagination>
                 </>
             )}
+            <Button onClick={handleAddPost}>Add Post</Button>
         </Container>
     );
 }
