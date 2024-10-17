@@ -139,12 +139,21 @@ import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { useAuth } from '../providers/AuthProvider';
 
 const HomePage = () => {
     const navigate = useNavigate();
+    const {userId}=useAuth();
 
     const handleGetPost = () => {
+        const token=localStorage.getItem("token")
+    if (!token) {
+      alert('Please log in.');
+      navigate('/login');
+    }
+    else{
         navigate('/getposts');
+    }
     };
 
     const styles = {

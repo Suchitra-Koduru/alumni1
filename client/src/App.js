@@ -22,7 +22,7 @@ function App() {
       <AuthProvider>
         <HeaderComponent></HeaderComponent>
         <Routes>
-          <Route path="/" element={<HomePage></HomePage>}></Route>
+          <Route path="/" element={<HomePage/>}></Route>
           <Route path="/login" element={<LoginComponent/>}></Route>
           <Route path="/signup" element={<SignUpComponent/>}></Route>
           <Route path="/getposts" element={<PostsList />}></Route> 

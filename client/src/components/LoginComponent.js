@@ -20,7 +20,7 @@ const Login = () => {
 
         try {
             await loginAction({ email, password });
-            navigate('/getposts'); // Navigate to GetPosts on successful login
+            navigate('/'); // Navigate to GetPosts on successful login
         } catch (err) {
             setError('Login failed. Please check your credentials.');
         } finally {
