@@ -1,75 +1,75 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { TextField, Button, Container, Grid, Typography, Card, CardContent } from '@mui/material';
+// import React, { useState } from 'react';
+// import axios from 'axios';
+// import { TextField, Button, Container, Grid, Typography, Card, CardContent } from '@mui/material';
 
-const SearchComponent = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [tags, setTags] = useState('');
-  const [posts, setPosts] = useState([]);
-  const [error, setError] = useState('');
+// const SearchComponent = () => {
+//   const [searchQuery, setSearchQuery] = useState('');
+//   const [tags, setTags] = useState('');
+//   const [posts, setPosts] = useState([]);
+//   const [error, setError] = useState('');
 
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/posts/search`, {
-        params: { searchQuery, tags }
-      });
-      console.log(response.data)
-      setPosts(response.data.data);
-      setError(''); // Clear any previous errors
-    } catch (err) {
-      setError('Failed to fetch posts. Please try again later.');
-      setPosts([]); // Clear posts in case of error
-      console.error('Error fetching posts:', err);
-    }
-  };
+//   const handleSearch = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:5000/posts/search`, {
+//         params: { searchQuery, tags }
+//       });
+//       console.log(response.data)
+//       setPosts(response.data.data);
+//       setError(''); // Clear any previous errors
+//     } catch (err) {
+//       setError('Failed to fetch posts. Please try again later.');
+//       setPosts([]); // Clear posts in case of error
+//       console.error('Error fetching posts:', err);
+//     }
+//   };
 
-  return (
-    <Container>
-      <Typography variant="h4" gutterBottom>Search Posts</Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <TextField 
-            label="Search Query" 
-            variant="outlined" 
-            fullWidth 
-            value={searchQuery} 
-            onChange={(e) => setSearchQuery(e.target.value)} 
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField 
-            label="Tags (comma-separated)" 
-            variant="outlined" 
-            fullWidth 
-            value={tags} 
-            onChange={(e) => setTags(e.target.value)} 
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Button variant="contained" color="primary" onClick={handleSearch}>
-            Search
-          </Button>
-        </Grid>
-      </Grid>
-      {error && <Typography variant="h6" color="error">{error}</Typography>}
-      <Grid container spacing={2} sx={{ marginTop: 2 }}>
-        {posts.map((post) => (
-          <Grid item xs={12} sm={6} md={4} key={post._id}>
-            <Card>
-              <CardContent>
-                <Typography variant="h5">{post.title}</Typography>
-                <Typography variant="body2" color="textSecondary">{post.message}</Typography>
-                <Typography variant="caption" color="textSecondary">Tags: {post.tags.join(', ')}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
-  );
-};
+//   return (
+//     <Container>
+//       <Typography variant="h4" gutterBottom>Search Posts</Typography>
+//       <Grid container spacing={2}>
+//         <Grid item xs={12} sm={6}>
+//           <TextField 
+//             label="Search Query" 
+//             variant="outlined" 
+//             fullWidth 
+//             value={searchQuery} 
+//             onChange={(e) => setSearchQuery(e.target.value)} 
+//           />
+//         </Grid>
+//         <Grid item xs={12} sm={6}>
+//           <TextField 
+//             label="Tags (comma-separated)" 
+//             variant="outlined" 
+//             fullWidth 
+//             value={tags} 
+//             onChange={(e) => setTags(e.target.value)} 
+//           />
+//         </Grid>
+//         <Grid item xs={12}>
+//           <Button variant="contained" color="primary" onClick={handleSearch}>
+//             Search
+//           </Button>
+//         </Grid>
+//       </Grid>
+//       {error && <Typography variant="h6" color="error">{error}</Typography>}
+//       <Grid container spacing={2} sx={{ marginTop: 2 }}>
+//         {posts.map((post) => (
+//           <Grid item xs={12} sm={6} md={4} key={post._id}>
+//             <Card>
+//               <CardContent>
+//                 <Typography variant="h5">{post.title}</Typography>
+//                 <Typography variant="body2" color="textSecondary">{post.message}</Typography>
+//                 <Typography variant="caption" color="textSecondary">Tags: {post.tags.join(', ')}</Typography>
+//               </CardContent>
+//             </Card>
+//           </Grid>
+//         ))}
+//       </Grid>
+//     </Container>
+//   );
+// };
 
-export default SearchComponent;
+// export default SearchComponent;
 
 
 // import React, { useEffect, useState } from 'react';
@@ -165,3 +165,98 @@ export default SearchComponent;
 // };
 
 // export default SearchComponent;
+
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Container, Form, Button, Row, Col, Alert, Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+
+const SearchComponent = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [tags, setTags] = useState('');
+  const [posts, setPosts] = useState([]);
+  const [error, setError] = useState('');
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/posts/search`, {
+        params: { searchQuery, tags }
+      });
+      setPosts(response.data.data);
+      setError(''); // Clear any previous errors
+    } catch (err) {
+      setError('Failed to fetch posts. Please try again later.');
+      setPosts([]); // Clear posts in case of error
+      console.error('Error fetching posts:', err);
+    }
+  };
+
+  const handleSeeMore = (id) => {
+    navigate(`/posts/${id}`); // Navigate to the post detail page
+  };
+
+  return (
+    <div style={{ minHeight: '100vh', backgroundColor: '#E6E6FA' }}> {/* Full height lavender background */}
+      <Container style={{ padding: '80px' }}>
+        <h4 className="mb-4">Search Posts</h4>
+        <Row className="mb-3">
+          <Col xs={12} sm={6}>
+            <Form.Control
+              type="text"
+              placeholder="Search Query"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ padding: '10px' }} // Added padding
+            />
+          </Col>
+          <Col xs={12} sm={6}>
+            <Form.Control
+              type="text"
+              placeholder="Tags (comma-separated)"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              style={{ padding: '10px' }} // Added padding
+            />
+          </Col>
+        </Row>
+        <Button
+          variant="primary"
+          onClick={handleSearch}
+          style={{ backgroundColor: '#DDA0DD', borderColor: '#DDA0DD' }} // Plum color for the button
+        >
+          Search
+        </Button>
+        {error && <Alert variant="danger" className="mt-3">{error}</Alert>}
+        <Row className="mt-4">
+          {posts.map((post) => (
+            <Col xs={12} sm={6} md={4} key={post._id} className="mb-4">
+              <Card style={{ backgroundColor: '#4B0082', color: '#FFFFFF' }}>
+                {post.selectedFile && (
+                  <Card.Img
+                    variant="top"
+                    src={`http://localhost:5000/${post.selectedFile}`} // Image URL
+                    alt={post.title}
+                    style={{ objectFit: 'cover', height: '140px' }} // Image style
+                  />
+                )}
+                <Card.Body>
+                  <Card.Title>{post.title}</Card.Title>
+                  <Button 
+                    style={{ backgroundColor: '#DDA0DD', borderColor: '#DDA0DD', width: '100%' }} // Plum color for the button
+                    onClick={() => handleSeeMore(post._id)} // Navigate to post detail
+                  >
+                    See More
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
+    </div>
+  );
+};
+
+export default SearchComponent;
+

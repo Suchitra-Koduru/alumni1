@@ -16,6 +16,7 @@ import HomePage from './components/HomePage';
 import ProfileComponent from './components/ProfileComponent'
 import MyPostsComponent from './components/MyPostsComponent'
 import LikedPosts from './components/LikedPosts';
+import AboutUs from './components/AboutUs';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <HeaderComponent></HeaderComponent>
         <Routes>
           <Route path="/" element={<HomePage/>}></Route>
+          <Route path="/aboutUs" element={<AboutUs></AboutUs>}></Route>
           <Route path="/login" element={<LoginComponent/>}></Route>
           <Route path="/signup" element={<SignUpComponent/>}></Route>
           <Route path="/getposts" element={<PostsList />}></Route> 

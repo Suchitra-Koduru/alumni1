@@ -1,0 +1,115 @@
+.container-custom {
+    background-color: #E6E6FA; /* Lavender background */
+    padding-bottom: 40px;
+}
+
+.card-custom {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.card-custom:hover {
+    transform: scale(1.02);
+}
+
+.card-img-custom {
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-body-custom {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    text-align: center;
+}
+
+.card-title-custom {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.see-more-button,
+.add-post-button {
+    background-color: #DDA0DD; /* Plum color */
+    border: none;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.see-more-button:hover,
+.add-post-button:hover {
+    background-color: #BA55D3; /* Darker plum for hover */
+}
+
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #DDA0DD; /* Plum color */
+    border-color: #DDA0DD; /* Plum border */
+    color: #FFFFFF; /* White text for active page */
+}
+
+.pagination .page-item .page-link {
+    color: #DDA0DD; /* Plum text */
+    border: 1px solid #DDA0DD; /* Plum border */
+}
+
+.pagination .page-item .page-link:hover {
+    color: #FFFFFF; /* White text on hover */
+    background-color: #BA55D3; /* Darker plum for hover */
+}
+
+/* Ensure there is a visible border on hover for visibility */
+.pagination .page-item:hover .page-link {
+    border-color: #BA55D3; /* Darker plum border on hover */
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #C0C0C0; /* Grey color for disabled state */
+    background-color: transparent; /* Transparent background for disabled state */
+    border-color: transparent; /* No border for disabled state */
+}
+
+/* Add padding and a consistent look */
+.pagination .page-item {
+    margin: 0 5px; /* Spacing between pagination items */
+}
+
+.pagination .page-link {
+    padding: 0.5rem 0.75rem; /* Padding for pagination items */
+    text-decoration: none; /* No underline */
+}
+
+
+/* Removed hover effect for pagination links */
+
+@media (min-width: 768px) {
+    .card-img-custom {
+        height: 200px;
+    }
+}
+
+@media (min-width: 992px) {
+    .card-img-custom {
+        height: 220px;
+    }
+}

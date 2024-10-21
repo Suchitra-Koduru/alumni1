@@ -1,0 +1,32 @@
+.carousel-container {
+    position: relative;
+    width: 75%;
+    overflow: hidden; /* Hide overflowing images */
+}
+
+.carousel-slide {
+    display: flex;
+    transition: transform 0.5s ease-in-out; /* Smooth transition */
+}
+
+.carousel-image {
+    width: 40%; /* Adjust the width as needed */
+    height: auto;
+}
+
+.carousel-caption {
+    text-align: right;
+    color: white; /* Caption text color */
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent; /* Transparent button background */
+    border: none; /* No border */
+    color: white; /* Button text color */
+    font-size: 2rem; /* Button size */
+    cursor: pointer; /* Pointer cursor on hover */
+    z-index: 2; /* Bring button to the front */
+}
