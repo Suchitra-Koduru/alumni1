@@ -30,7 +30,7 @@
 //     try {
 //       setLoading(true);
 //       const token = localStorage.getItem("token");
-      
+
 //       const formData = new FormData();
 //       formData.append('title', newPost.title);
 //       formData.append('message', newPost.message);
@@ -121,7 +121,6 @@
 
 // export default CreatePostComponent;
 
-
 // import React, { useState } from 'react';
 // import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
@@ -152,7 +151,7 @@
 
 //     try {
 //       setLoading(true);
-      
+
 //       const formData = new FormData();
 //       formData.append('title', newPost.title);
 //       formData.append('message', newPost.message);
@@ -198,7 +197,7 @@
 //               label="Title"
 //               variant="outlined"
 //               value={newPost.title}
-//               onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, title: e.target.value }))} 
+//               onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, title: e.target.value }))}
 //               required
 //               fullWidth
 //               margin="normal"
@@ -209,7 +208,7 @@
 //               multiline
 //               rows={4}
 //               value={newPost.message}
-//               onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, message: e.target.value }))} 
+//               onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, message: e.target.value }))}
 //               required
 //               fullWidth
 //               margin="normal"
@@ -218,13 +217,13 @@
 //               label="Tags (comma-separated)"
 //               variant="outlined"
 //               value={newPost.tags}
-//               onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, tags: e.target.value }))} 
+//               onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, tags: e.target.value }))}
 //               fullWidth
 //               margin="normal"
 //             />
 //             <input
 //               type="file"
-//               onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, selectedFile: e.target.files[0] }))} 
+//               onChange={(e) => setNewPost((prevPost) => ({ ...prevPost, selectedFile: e.target.files[0] }))}
 //             />
 
 //             <Button variant="contained" color="primary" type="submit" disabled={loading}>
@@ -269,7 +268,7 @@
 
 //     try {
 //       setLoading(true);
-      
+
 //       const formData = new FormData();
 //       formData.append('title', newPost.title);
 //       formData.append('message', newPost.message);
@@ -414,7 +413,6 @@
 
 // export default CreatePostComponent;
 
-
 // import React, { useState } from 'react';
 // import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
@@ -445,7 +443,7 @@
 
 //     try {
 //       setLoading(true);
-      
+
 //       const formData = new FormData();
 //       formData.append('title', newPost.title);
 //       formData.append('message', newPost.message);
@@ -596,58 +594,67 @@
 
 // export default CreatePostComponent;
 
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { TextField, Button, Card, CardContent, Typography } from '@mui/material';
-import { useAuth } from '../providers/AuthProvider';
-import '../styles/CreatePostComponent.css';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import {
+  TextField,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
+import { useAuth } from "../providers/AuthProvider";
+import "../styles/CreatePostComponent.css";
 
 function CreatePostComponent() {
   const navigate = useNavigate();
   const { userId } = useAuth();
   const [newPost, setNewPost] = useState({
-    title: '',
-    message: '',
-    tags: '',
+    title: "",
+    message: "",
+    tags: "",
     selectedFile: null,
   });
   const [loading, setLoading] = useState(false);
 
   async function handleCreatePost(e) {
     e.preventDefault();
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     if (!token) {
-      alert('Please log in to create a post');
-      navigate('/login');
+      alert("Please log in to create a post");
+      navigate("/login");
       return;
     }
 
     try {
       setLoading(true);
-      
+
       const formData = new FormData();
-      formData.append('title', newPost.title);
-      formData.append('message', newPost.message);
-      formData.append('tags', newPost.tags.split(',').map(tag => tag.trim()));
-      formData.append('creator', userId);
+      formData.append("title", newPost.title);
+      formData.append("message", newPost.message);
+      formData.append(
+        "tags",
+        newPost.tags.split(",").map((tag) => tag.trim())
+      );
+      formData.append("creator", userId);
       if (newPost.selectedFile) {
-        formData.append('selectedFile', newPost.selectedFile);
+        formData.append("selectedFile", newPost.selectedFile);
       }
 
       const res = await axios.post(`http://localhost:5000/posts/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
 
       if (res.data.status === false && res.data.login === false) {
-        alert('Please log in to proceed');
-        navigate('/login');
+        alert("Please log in to proceed");
+        navigate("/login");
       } else {
-        navigate('/getPosts');
+        navigate("/getPosts");
       }
     } catch (err) {
       console.error(err);
@@ -658,53 +665,55 @@ function CreatePostComponent() {
 
   const styles = {
     container: {
-      position: 'relative',
-      minHeight: '100vh',
-      backgroundImage: 'url("https://www.wilson.edu/sites/default/files/styles/1920_x_1080/public/campus.jpg?itok=6tjXNHDU")',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      position: "relative",
+      minHeight: "100vh",
+      backgroundImage:
+        'url("https://www.wilson.edu/sites/default/files/styles/1920_x_1080/public/campus.jpg?itok=6tjXNHDU")',
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
     },
     overlay: {
-      position: 'absolute',
+      position: "absolute",
       top: 0,
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: 'rgba(255, 255, 255, 0.5)',
-      backdropFilter: 'blur(8px)',
+      backgroundColor: "rgba(255, 255, 255, 0.5)",
+      backdropFilter: "blur(8px)",
       zIndex: 1,
     },
     card: {
-      width: '80%',
-      maxWidth: '600px',
-      backgroundColor: '#4B0082',
-      color: '#FFFFFF',
+      width: "80%",
+      maxWidth: "600px",
+      backgroundColor: "#4B0082",
+      color: "#FFFFFF",
       zIndex: 2,
-      borderRadius: '10px',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+      borderRadius: "10px",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+      marginTop: "55px",
     },
     createButton: {
-      backgroundColor: '#DDA0DD',
-      color: 'white',
-      border: 'none',
-      padding: '0.75rem 1.5rem',
-      fontSize: '1rem',
-      marginTop: '1rem',
-      cursor: 'pointer',
-      borderRadius: '5px',
-      transition: 'background-color 0.3s ease',
-      display: 'block',
-      width: '100%',
+      backgroundColor: "#DDA0DD",
+      color: "white",
+      border: "none",
+      padding: "0.75rem 1.5rem",
+      fontSize: "1rem",
+      marginTop: "1rem",
+      cursor: "pointer",
+      borderRadius: "5px",
+      transition: "background-color 0.3s ease",
+      display: "block",
+      width: "100%",
     },
     inputLabel: {
-      color: '#FFFFFF',
+      color: "#FFFFFF",
     },
     input: {
-      color: '#FFFFFF', // Set input text color to white
+      color: "#FFFFFF", // Set input text color to white
     },
   };
 
@@ -722,7 +731,10 @@ function CreatePostComponent() {
               variant="outlined"
               value={newPost.title}
               onChange={(e) =>
-                setNewPost((prevPost) => ({ ...prevPost, title: e.target.value }))
+                setNewPost((prevPost) => ({
+                  ...prevPost,
+                  title: e.target.value,
+                }))
               }
               required
               fullWidth
@@ -737,7 +749,10 @@ function CreatePostComponent() {
               rows={4}
               value={newPost.message}
               onChange={(e) =>
-                setNewPost((prevPost) => ({ ...prevPost, message: e.target.value }))
+                setNewPost((prevPost) => ({
+                  ...prevPost,
+                  message: e.target.value,
+                }))
               }
               required
               fullWidth
@@ -750,7 +765,10 @@ function CreatePostComponent() {
               variant="outlined"
               value={newPost.tags}
               onChange={(e) =>
-                setNewPost((prevPost) => ({ ...prevPost, tags: e.target.value }))
+                setNewPost((prevPost) => ({
+                  ...prevPost,
+                  tags: e.target.value,
+                }))
               }
               fullWidth
               margin="normal"
@@ -759,9 +777,12 @@ function CreatePostComponent() {
             />
             <input
               type="file"
-              style={{ marginTop: '1rem', display: 'block' }}
+              style={{ marginTop: "1rem", display: "block" }}
               onChange={(e) =>
-                setNewPost((prevPost) => ({ ...prevPost, selectedFile: e.target.files[0] }))
+                setNewPost((prevPost) => ({
+                  ...prevPost,
+                  selectedFile: e.target.files[0],
+                }))
               }
             />
 
@@ -771,7 +792,7 @@ function CreatePostComponent() {
               type="submit"
               disabled={loading}
             >
-              {loading ? 'Creating Post...' : 'Create Post'}
+              {loading ? "Creating Post..." : "Create Post"}
             </Button>
           </form>
         </CardContent>
