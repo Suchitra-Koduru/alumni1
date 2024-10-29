@@ -134,7 +134,12 @@ const CommentSection = () => {
         marginTop: "16px",
         maxWidth: "600px",
         backgroundColor: "#DDA0DD",
-        borderRadius: "12px",
+      }}
+      sx={{
+        borderRadius: 10,
+        padding: "16px",
+        marginBottom: "10px",
+        marginLeft: "10px",
       }}
     >
       {" "}

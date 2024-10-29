@@ -936,6 +936,7 @@ const SinglePostComponent = () => {
   const navigate = useNavigate();
   const { userId } = useAuth();
   const [liked, setLiked] = useState(false);
+  const [createdBy, setCreatedBy] = useState("");
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -943,6 +944,11 @@ const SinglePostComponent = () => {
         const response = await axios.get(`http://localhost:5000/posts/${id}`);
         setPost(response.data);
         setLiked(response.data.likes.includes(userId));
+        const creatorId = response.data.creator;
+        const creator = await axios.get(
+          `http://localhost:5000/user/${creatorId}`
+        );
+        setCreatedBy(creator.data.name);
         setLoading(false);
       } catch (err) {
         console.error("Error fetching post:", err);
@@ -1027,12 +1033,16 @@ const SinglePostComponent = () => {
                 </Typography>
               </div>
               <Typography variant="body2" color="text.secondary">
+                <strong>Posted by:</strong> {createdBy}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
                 <strong>Message:</strong> {post.message}
               </Typography>
               <Typography variant="caption" color="text.secondary">
                 <strong>Tags:</strong> {post.tags.join(", ")}
               </Typography>
               <Divider sx={{ my: 2 }} />
+
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Button
                   onClick={handleLike}
