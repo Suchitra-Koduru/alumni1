@@ -31,7 +31,6 @@
 // // //     fetchPost();
 // // //   }, [id, userId]);
 
-  
 // // //   const handleLike = async () => {
 // // //     if (!userId) {
 // // //       alert('Please log in to like a post.');
@@ -79,7 +78,6 @@
 // // // };
 
 // // // export default SinglePostComponent;
-
 
 // // // import React, { useEffect, useState } from 'react';
 // // // import axios from 'axios';
@@ -177,7 +175,6 @@
 // // // };
 
 // // // export default SinglePostComponent;
-
 
 // // import React, { useEffect, useState } from 'react';
 // // import axios from 'axios';
@@ -285,7 +282,6 @@
 // // };
 
 // // export default SinglePostComponent;
-
 
 // import React, { useEffect, useState } from 'react';
 // import axios from 'axios';
@@ -555,8 +551,6 @@
 //     },
 // };
 
-  
-
 //     return (
 //         <Container style={styles.container}>
 //             <div style={styles.background} />
@@ -606,7 +600,6 @@
 // };
 
 // export default SinglePostComponent;
-
 
 // import React, { useEffect, useState } from 'react';
 // import axios from 'axios';
@@ -763,7 +756,6 @@
 
 // export default SinglePostComponent;
 
-
 // import React, { useEffect, useState } from 'react';
 // import axios from 'axios';
 // import { Box, Typography, Card, CardContent, CardMedia, Divider, CircularProgress } from '@mui/material';
@@ -919,107 +911,152 @@
 
 // export default SinglePostComponent;
 
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Box, Typography, Card, CardContent, CardMedia, Divider, CircularProgress, Button } from '@mui/material';
-import { useParams, useNavigate } from 'react-router-dom';
-import CommentSection from './CommentSection';
-import { useAuth } from '../providers/AuthProvider';
-import { AiFillLike } from 'react-icons/ai';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Divider,
+  CircularProgress,
+  Button,
+} from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import CommentSection from "./CommentSection";
+import { useAuth } from "../providers/AuthProvider";
+import { AiFillLike } from "react-icons/ai";
 
 const SinglePostComponent = () => {
-    const { id } = useParams();
-    const [post, setPost] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
-    const { userId } = useAuth();
-    const [liked, setLiked] = useState(false);
+  const { id } = useParams();
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { userId } = useAuth();
+  const [liked, setLiked] = useState(false);
 
-    useEffect(() => {
-        const fetchPost = async () => {
-            try {
-                const response = await axios.get(`http://localhost:5000/posts/${id}`);
-                setPost(response.data);
-                setLiked(response.data.likes.includes(userId));
-                setLoading(false);
-            } catch (err) {
-                console.error('Error fetching post:', err);
-                setError('Failed to load post.');
-                setLoading(false);
-            }
-        };
-
-        fetchPost();
-    }, [id, userId]);
-
-    const handleLike = async () => {
-        const token=localStorage.getItem('token');
-        if (!token) {
-            alert('Please log in to like a post.');
-            return;
-        }
-
-        try {
-            const response = await axios.patch(`http://localhost:5000/posts/${id}/likePost`, { userId }, {
-                headers: { Authorization: `Bearer ${userId}` }
-            });
-
-            const updatedPost = response.data;
-
-            setLiked(updatedPost.likes.includes(userId));
-            setPost(updatedPost);
-        } catch (error) {
-            console.error('Error liking post:', error);
-        }
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/posts/${id}`);
+        setPost(response.data);
+        setLiked(response.data.likes.includes(userId));
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching post:", err);
+        setError("Failed to load post.");
+        setLoading(false);
+      }
     };
 
-    if (loading) return <CircularProgress />;
-    if (error) return <Typography variant="h6" color="error">{error}</Typography>;
+    fetchPost();
+  }, [id, userId]);
 
+  const handleLike = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please log in to like a post.");
+      return;
+    }
+
+    try {
+      const response = await axios.patch(
+        `http://localhost:5000/posts/${id}/likePost`,
+        { userId },
+        {
+          headers: { Authorization: `Bearer ${userId}` },
+        }
+      );
+
+      const updatedPost = response.data;
+
+      setLiked(updatedPost.likes.includes(userId));
+      setPost(updatedPost);
+    } catch (error) {
+      console.error("Error liking post:", error);
+    }
+  };
+
+  if (loading) return <CircularProgress />;
+  if (error)
     return (
-        <Box style={{ position: 'relative', padding: '80px', minHeight: '100vh', backgroundColor: 'lavender' }}>
-            <Card className="mb-3" sx={{ maxWidth: 1000, margin: '0 auto', backgroundColor: '#800080', color: '#fff' }}>
-                <div className="row g-0">
-                    <div className="col-md-4 d-flex align-items-center justify-content-center">
-                        {post.selectedFile && (
-                            <CardMedia
-                                component="img"
-                                height="300"
-                                image={`http://localhost:5000/${post.selectedFile}`}
-                                alt={post.title}
-                                style={{ margin: '20px' }} // Space around the image
-                            />
-                        )}
-                    </div>
-                    <div className="col-md-8">
-                        <CardContent>
-                            <div className="d-flex justify-content-between align-items-center">
-                                <Typography variant="h5" component="h2" className="card-title">{post.title}</Typography>
-                                <Button onClick={handleLike} style={{ cursor: "pointer", fontSize: "24px" }}>
-                                    <AiFillLike className={liked ? "text-danger" : ""} />
-                                </Button>
-                            </div>
-                            <Typography variant="body2" color="text.secondary">
-                                <strong>Message:</strong> {post.message}
-                            </Typography>
-                            <Typography variant="caption" color="text.secondary">
-                                <strong>Tags:</strong> {post.tags.join(', ')}
-                            </Typography>
-                            <Divider sx={{ my: 2 }} />
-                            <Typography variant="h6">
-                                {post.likes.length} {post.likes.length === 1 ? 'Like' : 'Likes'}
-                            </Typography>
-                        </CardContent>
-                        <Divider />
-                        <div style={{ padding: '16px 16px 0 16px' }}> {/* Add padding to create space */}
-                            <CommentSection postId={post._id} comments={post.comments} />
-                        </div>
-                    </div>
-                </div>
-            </Card>
-        </Box>
+      <Typography variant="h6" color="error">
+        {error}
+      </Typography>
     );
+
+  return (
+    <Box
+      style={{
+        position: "relative",
+        padding: "80px",
+        minHeight: "100vh",
+        backgroundColor: "lavender",
+      }}
+    >
+      <Card
+        className="mb-3"
+        sx={{
+          maxWidth: 1000,
+          margin: "0 auto",
+          backgroundColor: "white",
+          color: "#fff",
+          borderRadius: 10,
+          borderColor: "rgba(0, 0, 0, 0.2)",
+        }}
+      >
+        <div className="row g-0">
+          <div className="col-md-4 d-flex align-items-center justify-content-center">
+            {post.selectedFile && (
+              <CardMedia
+                component="img"
+                height="300"
+                image={`http://localhost:5000/${post.selectedFile}`}
+                alt={post.title}
+                style={{ margin: "20px" }} // Space around the image
+              />
+            )}
+          </div>
+          <div className="col-md-8">
+            <CardContent>
+              <div className="d-flex justify-content-between align-items-center">
+                <Typography variant="h3" color="black">
+                  {post.title}
+                </Typography>
+              </div>
+              <Typography variant="body2" color="text.secondary">
+                <strong>Message:</strong> {post.message}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                <strong>Tags:</strong> {post.tags.join(", ")}
+              </Typography>
+              <Divider sx={{ my: 2 }} />
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Button
+                  onClick={handleLike}
+                  style={{ cursor: "pointer", fontSize: "24px" }}
+                >
+                  <AiFillLike className={liked ? "text-danger" : ""} />
+                </Button>
+                <Typography variant="h6" color="purple">
+                  {post.likes.length}{" "}
+                  {post.likes.length === 1 ? "Like" : "Likes"}
+                </Typography>
+              </div>
+            </CardContent>
+            <Divider />
+          </div>
+          <div style={{ padding: "16px 16px 0 16px", marginBottom: "10px" }}>
+            {" "}
+            {/* Add padding to create space */}
+            <CommentSection postId={post._id} comments={post.comments} />
+          </div>
+        </div>
+      </Card>
+    </Box>
+  );
 };
 
 export default SinglePostComponent;
