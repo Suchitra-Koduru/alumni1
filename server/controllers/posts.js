@@ -258,7 +258,7 @@ export const getLikeCount = async (req, res) => {
             return res.status(404).json({ message: 'Post not found' });
         }
 
-        const likeCount = post.likes.length; // Count of likes
+        const likeCount = post.likes.length-1; // Count of likes
         res.status(200).json({ likeCount });
     } catch (error) {
         res.status(500).json({ message: "Something went wrong" });

@@ -600,12 +600,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Card, CardContent, Typography } from '@mui/material';
-import { useAuth } from '../providers/AuthProvider';
+//import { useAuth } from '../providers/AuthProvider';
 import '../styles/CreatePostComponent.css';
 
 function CreatePostComponent() {
   const navigate = useNavigate();
-  const { userId } = useAuth();
+  //const { userId } = useAuth();
+  const userId=JSON.parse(localStorage.getItem('userId'))
   const [newPost, setNewPost] = useState({
     title: '',
     message: '',

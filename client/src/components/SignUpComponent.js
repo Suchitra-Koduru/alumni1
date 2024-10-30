@@ -186,7 +186,7 @@ function SignUpComponent() {
         console.log(res)
         setLoading(false);
         if (res.status === 201) {
-          alert(res.data.message);
+          alert('sign up successful');
           navigate('/login');
         } else {
           setError(res.data.msg || 'Signup failed');
