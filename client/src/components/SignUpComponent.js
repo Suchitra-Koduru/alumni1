@@ -138,7 +138,7 @@
 //                       })
 //                     }} />
 //                 </div>
-                
+
 //                 {error && <div className="alert alert-danger">{error}</div>}
 //                 <div className="d-grid">
 //                   <button
@@ -158,17 +158,20 @@
 
 // export default RegisterComponent;
 
-import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
 
 function SignUpComponent() {
   const [user, setUser] = useState({
-    email: "", password: "", firstname: "", lastname: ""
+    email: "",
+    password: "",
+    firstname: "",
+    lastname: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -180,71 +183,74 @@ function SignUpComponent() {
   const handleSignup = (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
-    axios.post("http://localhost:5000/user/signup", user)
+    setError("");
+    axios
+      .post("http://localhost:5000/user/signup", user)
       .then((res) => {
-        console.log(res)
+        console.log(res);
         setLoading(false);
         if (res.status === 201) {
           alert('sign up successful');
           navigate('/login');
         } else {
-          setError(res.data.msg || 'Signup failed');
+          setError(res.data.msg || "Signup failed");
         }
-      }).catch(err => {
+      })
+      .catch((err) => {
         setLoading(false);
-        setError('Error in Signup');
+        setError("Error in Signup");
       });
   };
 
   const styles = {
     container: {
-      position: 'relative',
-      minHeight: '100vh',
-      backgroundImage: 'url("https://www.wilson.edu/sites/default/files/styles/1920_x_1080/public/campus.jpg?itok=6tjXNHDU")',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      position: "relative",
+      minHeight: "100vh",
+      backgroundImage:
+        'url("https://www.wilson.edu/sites/default/files/styles/1920_x_1080/public/campus.jpg?itok=6tjXNHDU")',
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
     },
     overlay: {
-      position: 'absolute',
+      position: "absolute",
       top: 0,
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: 'rgba(255, 255, 255, 0.5)',
-      backdropFilter: 'blur(8px)',
+      backgroundColor: "rgba(255, 255, 255, 0.5)",
+      backdropFilter: "blur(8px)",
       zIndex: 1,
     },
     card: {
-      width: '30rem',
-      backgroundColor: '#4B0082', // Same color as the carousel background
-      color: '#FFFFFF', // White text for contrast
+      width: "30rem",
+      backgroundColor: "#4B0082", // Same color as the carousel background
+      color: "#FFFFFF", // White text for contrast
       zIndex: 2,
-      padding: '2rem',
-      borderRadius: '10px',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+      padding: "2rem",
+      borderRadius: "10px",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
     },
     signupButton: {
-      backgroundColor: '#DDA0DD', // Same as the "Get Posts" button color
-      color: 'white',
-      border: 'none',
-      padding: '0.75rem 1.5rem',
-      fontSize: '1.25rem',
-      cursor: 'pointer',
-      borderRadius: '5px',
-      transition: 'background-color 0.3s ease',
+      backgroundColor: "#DDA0DD", // Same as the "Get Posts" button color
+      color: "white",
+      border: "none",
+      padding: "0.75rem 1.5rem",
+      fontSize: "1.25rem",
+      cursor: "pointer",
+      borderRadius: "5px",
+      transition: "background-color 0.3s ease",
     },
     toggleButton: {
-      backgroundColor: '#FFFFFF',
-      border: '1px solid #4B0082',
+      backgroundColor: "#FFFFFF",
+      border: "1px solid #4B0082",
       //borderRadius: '5px',
       //padding: '0.25rem',
-      cursor: 'pointer',
-      color: '#4B0082',
+      cursor: "pointer",
+      color: "#4B0082",
     },
   };
 
@@ -265,22 +271,25 @@ function SignUpComponent() {
                 onChange={(e) => {
                   setUser((user) => ({
                     ...user,
-                    email: e.target.value
+                    email: e.target.value,
                   }));
-                }} />
+                }}
+              />
             </div>
             <div className="mb-3">
-              <label htmlFor="password" className="form-label">Password</label>
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
               <div className="input-group">
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   className="form-control"
                   id="password"
                   value={user.password}
                   onChange={(e) => {
                     setUser((user) => ({
                       ...user,
-                      password: e.target.value
+                      password: e.target.value,
                     }));
                   }}
                   required
@@ -307,9 +316,10 @@ function SignUpComponent() {
                 onChange={(e) => {
                   setUser((user) => ({
                     ...user,
-                    firstName: e.target.value
+                    firstName: e.target.value,
                   }));
-                }} />
+                }}
+              />
             </div>
             <div className="form-group form-label">
               <label>Lastname</label>
@@ -321,19 +331,22 @@ function SignUpComponent() {
                 onChange={(e) => {
                   setUser((user) => ({
                     ...user,
-                    lastName: e.target.value
+                    lastName: e.target.value,
                   }));
-                }} />
+                }}
+              />
             </div>
 
             {error && <div className="alert alert-danger">{error}</div>}
             <div className="d-grid">
               <button
-                type='submit'
+                type="submit"
                 className="btn"
                 style={styles.signupButton}
                 disabled={loading}
-              >{loading ? 'Signing up...' : 'Sign up'}</button>
+              >
+                {loading ? "Signing up..." : "Sign up"}
+              </button>
             </div>
           </form>
         </div>
