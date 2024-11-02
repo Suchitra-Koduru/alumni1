@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import UserModal from "../models/user.js";
+import Alumni from "../models/alumni.js"
 
 const secret = 'test';
 
@@ -26,6 +27,7 @@ export const signin = async (req, res) => {
       login: true,
       id: oldUser._id,
       user: oldUser,
+      role: oldUser.role,
       message: "User logged in successfully",
     });
   } catch (err) {
@@ -83,16 +85,24 @@ export const signin = async (req, res) => {
 //   }
 // };
 export const signup = async (req, res) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password, firstName, lastName, role } = req.body;
+  console.log(req.body);
 
   try {
     const oldUser = await UserModal.findOne({ email });
 
     if (oldUser) return res.status(400).json({ message: "User already exists" });
+    if (role === 'alumni') {
+        // Check if alumni exists in the alumni database
+        const alumniExists = await Alumni.findOne({ email });
+        if (!alumniExists) {
+            return res.status(400).json({ message: 'Alumni not found in the alumni database' });
+        }
+    }
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const result = await UserModal.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
+    const result = await UserModal.create({ email, password: hashedPassword, name: `${firstName} ${lastName}`,role });
 
     const token = jwt.sign( { email: result.email, id: result._id }, secret, { expiresIn: "1h" } );
 

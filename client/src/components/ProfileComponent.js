@@ -146,7 +146,13 @@ const Profile = () => {
     const firstLetter = user?.name?.charAt(0).toUpperCase();
 
     function handleMyPosts(userId) {
-        navigate(`/myposts/${userId}`);
+        const role=JSON.parse(localStorage.getItem('role'));
+            if(role==='user'){
+                navigate('/noUserPosts');
+            }
+            else{
+                navigate(`/myposts/${userId}`);
+            }
     }
 
     function handleMyLikedPosts(userId) {

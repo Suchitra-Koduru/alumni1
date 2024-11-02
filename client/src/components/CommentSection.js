@@ -108,7 +108,8 @@ const CommentSection = () => {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    if (!userId) {
+    const token=localStorage.getItem('token');
+    if (!token) {
       alert("Please log in to comment.");
       return;
     }

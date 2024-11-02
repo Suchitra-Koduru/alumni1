@@ -6,6 +6,7 @@ import cors from 'cors';
 
 import postRoutes from './routes/posts.js';
 import userRouter from "./routes/user.js";
+import alumniRouter from './routes/alumni.js'
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use('/uploads', express.static('uploads'));
 
 app.use('/posts', postRoutes);
 app.use("/user", userRouter);
+app.use("/alumni",alumniRouter);
 
 const CONNECTION_URL = 'mongodb+srv://kaushikketha:kaushikketha@cluster0.aox2hbb.mongodb.net/?retryWrites=true&w=majority';
 const PORT = process.env.PORT|| 5000;

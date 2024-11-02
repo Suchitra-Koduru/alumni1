@@ -17,26 +17,74 @@ import ProfileComponent from './components/ProfileComponent'
 import MyPostsComponent from './components/MyPostsComponent'
 import LikedPosts from './components/LikedPosts';
 import AboutUs from './components/AboutUs';
+import GetAllPostForUsers from './components/GetAllPostForUsers';
+import UserHome from './components/UserHome';
+import UserProtectedRoute from './routes/UserProtectedRoute';
+import AlumniProtectedRoute from './routes/AlumniProtectedRoute';
+import NoUserPosts from './components/NoUserPosts';
+import AdminProtectedRoute from './routes/AdminProtectedRoute';
+import AdminHome from './components/AdminHome';
+import GetAllAlumni from './components/GetAllAlumni';
+import AddAlumniForm from './components/AddAlumniForm';
 
 function App() {
   return (
     <div>
+      {/* <BrowserRouter>
+      <AuthProvider>
+        <HeaderComponent></HeaderComponent>
+        <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/login" element={<LoginComponent />} />
+        <Route path="/signup" element={<SignUpComponent />} />
+        <Route path="/getposts" element={<PostsList />} /> 
+        <Route path="/posts/:id" element={<SinglePostComponent />} />
+        <Route path="/create" element={<CreatePostComponent />} />
+        <Route path="/update/:id" element={<UpdatePostComponent />} />
+        <Route path="/search" element={<SearchComponent />} />
+        <Route path="/myposts/:userId" element={<MyPostsComponent />} />
+        <Route path="/mylikedposts/:userId" element={<LikedPosts />} />
+        <Route path="/profile" element={<ProfileComponent />} />
+        <Route path="/user" element={<UserHome />} />
+        <Route path="/getpostsUsers" element={<GetAllPostForUsers />} />
+        <Route path="/profileUser" element={<ProfileForUser/>}/>
+        </Routes>
+      </AuthProvider>
+      </BrowserRouter> */}
+
       <BrowserRouter>
       <AuthProvider>
         <HeaderComponent></HeaderComponent>
         <Routes>
-          <Route path="/" element={<HomePage/>}></Route>
-          <Route path="/aboutUs" element={<AboutUs></AboutUs>}></Route>
-          <Route path="/login" element={<LoginComponent/>}></Route>
-          <Route path="/signup" element={<SignUpComponent/>}></Route>
-          <Route path="/getposts" element={<PostsList />}></Route> 
-          <Route path="/posts/:id" element={<SinglePostComponent />}></Route>
-          <Route path="/create" element={<CreatePostComponent />} />
-          <Route path="/update/:id" element={<UpdatePostComponent />} />
-          <Route path="/search" element={<SearchComponent/>}></Route>
-          <Route path='/profile' element={<ProfileComponent></ProfileComponent>}></Route>
-          <Route path='/myposts/:userId' element={<MyPostsComponent></MyPostsComponent>}></Route>
-          <Route path='/mylikedposts/:userId' element={<LikedPosts></LikedPosts>}></Route>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/login" element={<LoginComponent />} />
+        <Route path="/signup" element={<SignUpComponent />} />
+        <Route path="/user" element={<UserHome />} />
+        <Route path="/posts/:id" element={<SinglePostComponent />} />
+        <Route path="/search" element={<SearchComponent />} />
+        <Route path="/mylikedposts/:userId" element={<LikedPosts />} />
+        <Route path="/profile" element={<ProfileComponent />} />
+        <Route path='/admin' element={<AdminHome/>}/>
+
+        <Route element={<UserProtectedRoute/>}>
+        <Route path="/getpostsUsers" element={<GetAllPostForUsers />} />
+        <Route path='/noUserPosts' element={<NoUserPosts/>}/>
+        </Route>
+
+        <Route element={<AlumniProtectedRoute/>}>
+        <Route path="/getposts" element={<PostsList />} /> 
+        <Route path="/create" element={<CreatePostComponent />} />
+        <Route path="/update/:id" element={<UpdatePostComponent />} />
+        <Route path="/myposts/:userId" element={<MyPostsComponent />} />
+        </Route>
+
+        <Route element={<AdminProtectedRoute/>}>
+        <Route path='/getAllAlumni' element={<GetAllAlumni/>}/>
+        <Route path='/add-alumni' element={<AddAlumniForm/>}/>
+        </Route>
+
         </Routes>
       </AuthProvider>
       </BrowserRouter>

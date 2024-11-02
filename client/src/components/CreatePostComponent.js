@@ -594,27 +594,12 @@
 
 // export default CreatePostComponent;
 
-<<<<<<< HEAD
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Card, CardContent, Typography } from '@mui/material';
 //import { useAuth } from '../providers/AuthProvider';
 import '../styles/CreatePostComponent.css';
-=======
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import {
-  TextField,
-  Button,
-  Card,
-  CardContent,
-  Typography,
-} from "@mui/material";
-import { useAuth } from "../providers/AuthProvider";
-import "../styles/CreatePostComponent.css";
->>>>>>> aa8dd12aed5ee05270b21a41f164effd45c645bd
 
 function CreatePostComponent() {
   const navigate = useNavigate();
